@@ -99,13 +99,7 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
-                    @auth
-                        <ul class="nav m-5">
-                            <li><a class="btn btn-outline-primary mr-2"
-                                   href="{{route('currencies.index')}}">Currencies</a></li>
-                            <li><a class="btn btn-outline-success" href="{{route('currencies.create')}}">Add</a></li>
-                        </ul>
-                    @endauth
+
                     @guest
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -138,41 +132,25 @@
             </div>
         </div>
     </nav>
+
     @if(session('status'))
         <div class="alert alert-info">
             {{session('status')}}
         </div>
     @endif
     <div class="container">
-        <div class="row">
             <main class="py-4">
+                @auth
+                    <ul class="nav m-5">
+                        <li><a class="btn btn-outline-primary mr-2"
+                               href="{{route('currencies.index')}}">Currencies</a></li>
+                        <li><a class="btn btn-outline-success" href="{{route('currencies.create')}}">Add</a></li>
+                    </ul>
+                @endauth
                 @yield('content')
             </main>
-        </div>
     </div>
 </div>
-
-<div class="container">
-
-</div>
-{{--<div class="container">--}}
-{{--<div class="row">--}}
-
-{{--<ul class="nav m-5">--}}
-{{--<li><a class="btn btn-outline-primary mr-2" href="{{route('currencies.index')}}">Currencies</a></li>--}}
-{{--<li><a class="btn btn-outline-success" href="{{route('currencies.create')}}">Add</a></li>--}}
-{{--</ul>--}}
-
-{{--<div class="container">--}}
-{{--@if(session('status'))--}}
-{{--<div class="alert alert-info">--}}
-{{--{{session('status')}}--}}
-{{--</div>--}}
-{{--@endif--}}
-{{--@yield('content')--}}
-{{--</div>--}}
-{{--</div>--}}
-{{--</div>--}}
 
 <script src="https://unpkg.com/ionicons@4.2.4/dist/ionicons.js"></script>
 

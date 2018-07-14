@@ -51,6 +51,27 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <a class="btn btn-link" href="{{ route('socialLogin') }}">Login via github</a>
+                            </div>
+                        </div>
+
+                        {{--<div class="social-login">--}}
+                            {{--<div class="social-login__title">Or you can login via:</div>--}}
+                            {{--<div class="social-login__providers">--}}
+                                {{--<a href="{{route('socialLogin','github')}}">--}}
+                                    {{--<img src="{{asset('/images/github.png')}}" alt="github">--}}
+                                {{--</a>--}}
+                                {{--<a href="{{route('socialLogin','twitter')}}">--}}
+                                    {{--<img src="{{asset('/images/twitter.png')}}" alt="twitter">--}}
+                                {{--</a>--}}
+                                {{--<a href="{{route('socialLogin','battlenet')}}">--}}
+                                    {{--<img src="{{asset('/images/bnet.png')}}" alt="battlenet">--}}
+                                {{--</a>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

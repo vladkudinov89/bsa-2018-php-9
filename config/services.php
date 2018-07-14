@@ -35,4 +35,16 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+//    'github' => [
+//        'client_id' => env('7854585c08fca880d9cd'),
+//        'client_secret' => env('4feaf800960d2ad52e6a2417d4c55aa04aa31e02'),
+//        'redirect' => 'http://192.168.10.10:8080/auth/github/callback',
+//    ],
+//
+    'github' => [
+        'client_id' => env('GITHUB_CLIENT_ID'),
+        'client_secret' => env('GITHUB_CLIENT_SECRET'),
+        'redirect' => env('GITHUB_REDIRECT_URI'),
+    ],
+
 ];
