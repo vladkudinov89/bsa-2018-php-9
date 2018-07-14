@@ -15,4 +15,12 @@ Route::get('/', function () {
     return view('main');
 });
 
-Route::resource('/currencies' , 'Currency\CurrencyController'); 
+Route::group(['middleware' => 'auth'] , function (){
+    Route::resource('/currencies' , 'Currency\CurrencyController');
+});
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
