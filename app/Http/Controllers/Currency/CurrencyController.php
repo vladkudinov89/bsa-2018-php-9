@@ -6,6 +6,7 @@ use App\Currency;
 use App\Http\Requests\CurrencyRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class CurrencyController
@@ -22,7 +23,7 @@ class CurrencyController extends Controller
     {
         $title = 'Currency market';
         $currencies = Currency::all();
-        return view('currencies' , [
+        return view('currencies', [
             'currencies' => $currencies,
             'title' => $title,
         ]);
@@ -35,9 +36,12 @@ class CurrencyController extends Controller
      */
     public function create()
     {
+        if (Gate::denies('create', Currency::class)) {
+            return redirect('/');
+        }
         $title = 'Add currency';
-        return view('currencies.create',[
-            'title'=>$title,
+        return view('currencies.create', [
+            'title' => $title,
             'currency' => []
         ]);
     }
@@ -48,6 +52,10 @@ class CurrencyController extends Controller
      */
     public function store(CurrencyRequest $request)
     {
+        if (Gate::denies('create', Currency::class)) {
+            return redirect('/');
+        }
+
         $currency = new Currency();
         $currency->title = $request->title;
         $currency->short_name = $request->short_name;
@@ -56,7 +64,7 @@ class CurrencyController extends Controller
 
         $currency->save();
 
-        return redirect()->route('currencies.index')->with('status','Currency Success Added');
+        return redirect()->route('currencies.index')->with('status', 'Currency Success Added');
     }
 
 
@@ -66,9 +74,12 @@ class CurrencyController extends Controller
      */
     public function show(Currency $currency)
     {
-        return view('currencies.show' , [
+        if (Gate::denies('view', $currency)) {
+            return redirect('/');
+        }
+        return view('currencies.show', [
             'currency' => $currency,
-            'title'=>$currency->title
+            'title' => $currency->title
         ]);
     }
 
@@ -76,9 +87,13 @@ class CurrencyController extends Controller
      * @param Currency $currency
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(Currency $currency)
+    public function edit(int $id)
     {
-        return view('currencies.edit',['currency'=>$currency, 'title'=>$currency->title]);
+        $currency = Currency::find($id);
+        if ($currency === null || Gate::denies('update', $currency)) {
+            return redirect('/');
+        }
+        return view('currencies.edit', ['currency' => $currency, 'title' => $currency->title]);
     }
 
 
@@ -89,8 +104,11 @@ class CurrencyController extends Controller
      */
     public function update(CurrencyRequest $request, Currency $currency)
     {
+        if (Gate::denies('update', $currency)) {
+            return redirect('/');
+        }
 
-        if($request->all()){
+        if ($request->all()) {
             $currency->title = $request->title;
             $currency->short_name = $request->short_name;
             $currency->logo_url = $request->logo_url;
@@ -98,7 +116,7 @@ class CurrencyController extends Controller
 
             $currency->save();
 
-            return redirect()->route('currencies.show' , $currency->id)->with('status','Currency Success Update');
+            return redirect()->route('currencies.show', $currency->id)->with('status', 'Currency Success Update');
         }
 
     }
@@ -111,7 +129,10 @@ class CurrencyController extends Controller
      */
     public function destroy(Currency $currency)
     {
+        if (Gate::denies('delete', $currency)) {
+            return redirect('/');
+        }
         $currency->delete();
-        return redirect()->route('currencies.index')->with('status','Currency Success Deleted');
+        return redirect()->route('currencies.index')->with('status', 'Currency Success Deleted');
     }
 }

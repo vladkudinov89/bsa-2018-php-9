@@ -30,4 +30,5 @@
 
 <hr/>
 
-<input class="btn btn-primary" type="submit" value="Save">
+{{--<input class="btn btn-primary" type="submit" value="Save">--}}
+<button type="submit" class="btn btn-primary">Save</button>

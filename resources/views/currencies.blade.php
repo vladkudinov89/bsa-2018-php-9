@@ -3,7 +3,7 @@
 
 @section('title')
     {{$title}}
-    @endsection
+@endsection
 
 @section('content')
     <h1>{{$title}}</h1>
@@ -19,34 +19,40 @@
             </thead>
             <tbody>
             <tr>
-        @endempty
+                @endempty
 
 
-            @forelse($currencies as $currency)
-                <td><a href="{{route('currencies.show' , $currency['id']) }}">{{$currency->title}}</a>
-                </td>
-                <td>{{$currency->short_name}}</td>
-                <td>
-                    <img src="{{$currency->logo_url}}" alt="{{$currency->title}}">
-                </td>
-                <td>{{$currency->price}}</td>
+                @forelse($currencies as $currency)
+                    <td><a href="{{route('currencies.show' , $currency['id']) }}">{{$currency->title}}</a>
+                    </td>
+                    <td>{{$currency->short_name}}</td>
+                    <td>
+                        <img src="{{$currency->logo_url}}" alt="{{$currency->title}}">
+                    </td>
+                    <td>{{$currency->price}}</td>
+                    @if( Gate::check('update',$currency) || Gate::check('delete',$currency) )
+                        <td>
+                            @can('update',$currency)
+                                <a class="float-left edit-button" href="{{route('currencies.edit' , $currency->id)}}">
+                                    <ion-icon name="create"></ion-icon>
+                                    Edit</a>
+                            @endcan
+                            @can('delete',$currency)
+                                <form action="{{ route('currencies.destroy',$currency->id) }}" method="POST">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
 
-                <td>
-                    <a class="float-left edit-button" href="{{route('currencies.edit' , $currency->id)}}"><ion-icon name="create"></ion-icon>Edit</a>
-
-                    <form action="{{ route('currencies.destroy',$currency->id) }}" method="POST">
-                        {{ csrf_field() }}
-                        {{ method_field('DELETE') }}
-
-                    <button class="delete-button button-delete" type="submit">
-                        <ion-icon name="close"></ion-icon>Delete
-                    </button>
-                    </form>
-
-                </td>
-        </tr>
-        @empty
-            <p>No currencies</p>
+                                    <button class="delete-button button-delete" type="submit">
+                                        <ion-icon name="close"></ion-icon>
+                                        Delete
+                                    </button>
+                                </form>
+                            @endcan
+                        </td>
+                    @endcan
+            </tr>
+            @empty
+                <p>No currencies</p>
         @endforelse
     </table>
 

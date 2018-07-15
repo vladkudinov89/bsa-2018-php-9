@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => 'auth'] , function (){
-    Route::resource('/currencies' , 'Currency\CurrencyController');
+    Route::resource('currencies' , 'Currency\CurrencyController');
 });
 
 
