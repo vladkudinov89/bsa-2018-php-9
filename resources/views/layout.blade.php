@@ -144,7 +144,10 @@
                     <ul class="nav m-5">
                         <li><a class="btn btn-outline-primary mr-2"
                                href="{{route('currencies.index')}}">Currencies</a></li>
-                        <li><a class="btn btn-outline-success" href="{{route('currencies.create')}}">Add</a></li>
+                        @can('create',\App\Currency::class)
+                            <li><a class="btn btn-outline-success" href="{{route('currencies.create')}}">Add</a></li>
+                        @endcan
+
                     </ul>
                 @endauth
                 @yield('content')
