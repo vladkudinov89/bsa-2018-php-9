@@ -37,7 +37,7 @@ class CurrencyController extends Controller
     public function create()
     {
         if (Gate::denies('create', Currency::class)) {
-            return redirect()->route('currencies.index');
+            return redirect('/');
         }
         $title = 'Add currency';
         return view('currencies.create', [
@@ -53,7 +53,7 @@ class CurrencyController extends Controller
     public function store(CurrencyRequest $request)
     {
         if (Gate::denies('create', Currency::class)) {
-            return redirect()->route('currencies.index');
+            return redirect('/');
         }
 
         $currency = new Currency();
@@ -75,7 +75,7 @@ class CurrencyController extends Controller
     public function show(Currency $currency)
     {
         if (Gate::denies('view', $currency)) {
-            return redirect()->route('currencies.index');
+            return redirect('/');
         }
         return view('currencies.show', [
             'currency' => $currency,
@@ -87,12 +87,12 @@ class CurrencyController extends Controller
      * @param Currency $currency
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(Currency $currency)
+    public function edit(int $id)
     {
-        if (Gate::denies('update', $currency)) {
-            return redirect()->route('currencies.index');
+        $currency = Currency::find($id);
+        if ($currency === null || Gate::denies('update', $currency)) {
+            return redirect('/');
         }
-
         return view('currencies.edit', ['currency' => $currency, 'title' => $currency->title]);
     }
 
@@ -105,7 +105,7 @@ class CurrencyController extends Controller
     public function update(CurrencyRequest $request, Currency $currency)
     {
         if (Gate::denies('update', $currency)) {
-            return redirect()->route('currencies.index');
+            return redirect('/');
         }
 
         if ($request->all()) {
@@ -130,7 +130,7 @@ class CurrencyController extends Controller
     public function destroy(Currency $currency)
     {
         if (Gate::denies('delete', $currency)) {
-            return redirect()->route('currencies.index');
+            return redirect('/');
         }
         $currency->delete();
         return redirect()->route('currencies.index')->with('status', 'Currency Success Deleted');
